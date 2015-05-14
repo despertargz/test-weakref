@@ -12,24 +12,45 @@ a();
 b();
 c();
 
+print "----------------\n";
+$keep = {};
+
+if (1) {
+	my $tiger = Tiger->new();
+	print("leaving if (normal)...\n");
+}
+
+if (1) {
+	my $tiger = Tiger->new();
+    $keep->{one} = $tiger;
+	print("leaving if (strong)...\n");
+}
+
+if (1) {
+	my $tiger = Tiger->new();
+    $keep->{two} = $tiger;
+    weaken $keep->{two};
+	print("leaving if (weak)...\n");
+}
+
 print "waiting...";
 my $i = <>;
 
 sub a {
 	my $tiger = Tiger->new();
-	print("leaving a...\n");
+	print("leaving sub (normal)...\n");
 }
 
 sub b {
 	my $tiger = Tiger->new();
 	$keep->{one} = $tiger;
-	print("leaving b (strong ref)...\n");
+	print("leaving sub (strong ref)...\n");
 }
 
 sub c {
 	my $tiger = Tiger->new();
 	$keep->{two} = $tiger;
 	weaken $keep->{two};
-	print("leaving c (weak ref)...\n");
+	print("leaving sub (weak ref)...\n");
 }
 
